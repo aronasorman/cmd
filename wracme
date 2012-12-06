@@ -1,0 +1,5 @@
+#!/usr/bin/env rc
+# wrapper for launching acme
+SHELL=`{which rc}
+PAGER=nobs
+acme -f $PLAN9/font/vera/VeraMono/VeraMono.14.font -a &

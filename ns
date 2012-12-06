@@ -1,0 +1,8 @@
+#!/usr/bin/env rc
+# launch a p9p application in the specified namespace.
+# Usage is: ns [namespace] [application]
+
+folder='ns.'^$1
+NAMESPACE=/tmp/^$folder
+mkdir -p $NAMESPACE
+exec $2

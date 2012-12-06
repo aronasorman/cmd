@@ -1,0 +1,4 @@
+#!/usr/bin/env rc
+# TODO: move to shell functions in a file, probably initialized in call to wracme
+
+git add $*

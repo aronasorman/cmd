@@ -1,0 +1,46 @@
+#!/usr/bin/env rc
+
+# spawn another window, name it to Op + windowname,
+# start watching new window for events, then offshore
+# event handling to dedicated program, depending on
+# file type.
+
+. $PLAN9/lib/acme.rc
+
+fullfilename=$%
+filename=`{basename $%}
+filetype=txt
+program=None
+
+switch ($filename) {
+  case *.rb
+    filetype=ruby
+    program=RubyOp
+  case *.go
+    filetype=go
+  case *.c
+    filetype=c
+}
+
+fn event {
+  switch($1$2) {
+    case Mx MX # button 2
+      exec $program $9 $fullfilename
+    case Ml ML # button 3
+      winwriteevent $%
+    case *
+      echo "something was typed"
+      winwriteevent $*
+  }
+}
+
+if (~ $program None) {
+  echo "Filetype not recognized"
+  exit 1
+}
+
+newwindow
+winname='Op+'^$fullfilename
+winname $winname
+$program --commands $fullfilename | winwrite body
+wineventloop
